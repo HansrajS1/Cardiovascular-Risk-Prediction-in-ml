@@ -1,6 +1,6 @@
 # ❤️ Cardiovascular Risk Prediction using Machine Learning
 
-This project predicts the **10-year risk of coronary heart disease (CHD)** using machine learning algorithms based on clinical and demographic data from the **Framingham Heart Study** dataset. It aims to assist healthcare professionals in early risk assessment and preventive care decisions.
+This project predicts the **10-year risk of coronary heart disease (CHD)** using machine learning algorithms based on clinical and demographic data dataset. It aims to assist healthcare professionals in early risk assessment and preventive care decisions.
 
 ---
 
