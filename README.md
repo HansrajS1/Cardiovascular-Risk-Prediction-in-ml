@@ -20,7 +20,7 @@ This project predicts the **10-year risk of coronary heart disease (CHD)** using
 
 ## 📊 Dataset
 
-- **Source**: [Framingham Heart Study](https://www.kaggle.com/datasets/amanajmera1/framingham-heart-study-dataset)
+- **Source**: [Patient dataset ](CVD_cleaned.zip)
 - **Attributes**: Age, Sex, Blood Pressure, Cholesterol, Smoking, Diabetes, and more
 - **Size**: ~4,000 samples × 15 features
 
