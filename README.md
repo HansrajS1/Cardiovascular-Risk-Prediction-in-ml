@@ -6,15 +6,15 @@ This project predicts the **10-year risk of coronary heart disease (CHD)** using
 
 ## Key Features
 
-- ✅ Preprocessing and handling of missing medical data
-- ✅ Exploratory Data Analysis (EDA) with visual insights
-- ✅ Feature selection based on correlation and domain knowledge
-- ✅ Model training using:
+- Preprocessing and handling of missing medical data
+- Exploratory Data Analysis (EDA) with visual insights
+- Feature selection based on correlation and domain knowledge
+-  Model training using:
   - Logistic Regression
   - Random Forest
   - Gradient Boosting
-- ✅ Evaluation using Accuracy, ROC-AUC, Precision, Recall, and F1 Score
-- ✅ Risk probability prediction for individual cases
+- Evaluation using Accuracy, ROC-AUC, Precision, Recall, and F1 Score
+- Risk probability prediction for individual cases
 
 ---
 
