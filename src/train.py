@@ -8,12 +8,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 
-dagshub.init(
-    repo_owner="HansrajS1",
-    repo_name="Cardiovascular-Risk-Prediction-in-ml",
-    mlflow=True
-)
-
 DATA_PATH = "data/processed/preprocessed_dataset.csv"
 MODEL_DIR = "models/"
 
