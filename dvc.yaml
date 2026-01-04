@@ -1,0 +1,32 @@
+stages:
+  ingestion:
+    cmd: python src/ingestion.py
+    deps:
+      - src/ingestion.py
+      - data/source/CVD_cleaned.csv
+    outs:
+      - data/raw/CVD_cleaned.csv
+
+  validation:
+    cmd: python src/validation.py
+    deps:
+      - src/validation.py
+      - data/raw/CVD_cleaned.csv
+    outs:
+      - data/validated/data.csv
+
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+      - src/preprocess.py
+      - data/raw/CVD_cleaned.csv
+    outs:
+      - data/processed/preprocessed_dataset.csv
+
+  train:
+    cmd: python src/train.py
+    deps:
+      - src/train.py
+      - data/processed/preprocessed_dataset.csv
+    outs:
+      - models/best_model.pkl

@@ -1,0 +1,66 @@
+schema: '2.0'
+stages:
+  ingestion:
+    cmd: python src/ingestion.py
+    deps:
+    - path: data/source/CVD_cleaned.csv
+      hash: md5
+      md5: 0f6f12d564c2bd1e800b1025e3525230
+      size: 29355747
+    - path: src/ingestion.py
+      hash: md5
+      md5: 9556157872d2212c9941212bdb01c0d9
+      size: 734
+    outs:
+    - path: data/raw/CVD_cleaned.csv
+      hash: md5
+      md5: 922178ed620ae1b5dbf79a86d425949f
+      size: 29365225
+  validation:
+    cmd: python src/validation.py
+    deps:
+    - path: data/raw/CVD_cleaned.csv
+      hash: md5
+      md5: 922178ed620ae1b5dbf79a86d425949f
+      size: 29365225
+    - path: src/validation.py
+      hash: md5
+      md5: 2d3b44c620a0dd0690528c2292e93e95
+      size: 719
+    outs:
+    - path: data/validated/data.csv
+      hash: md5
+      md5: a9bd8d9d8120638831ef4da3d003fd7c
+      size: 29357689
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+    - path: data/raw/CVD_cleaned.csv
+      hash: md5
+      md5: 922178ed620ae1b5dbf79a86d425949f
+      size: 29365225
+    - path: src/preprocess.py
+      hash: md5
+      md5: 92d0287a957fe6d77edfa26f1658e28e
+      size: 1166
+    outs:
+    - path: data/processed/preprocessed_dataset.csv
+      hash: md5
+      md5: cbb7dba934f2343e892f0a9556ba0b38
+      size: 83285316
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/processed/preprocessed_dataset.csv
+      hash: md5
+      md5: cbb7dba934f2343e892f0a9556ba0b38
+      size: 83285316
+    - path: src/train.py
+      hash: md5
+      md5: d48a8e9e27d16d1c36bb926d4847ac8b
+      size: 1536
+    outs:
+    - path: models/best_model.pkl
+      hash: md5
+      md5: a0fd32e723c3b3305dd23a4839b0518b
+      size: 2351
