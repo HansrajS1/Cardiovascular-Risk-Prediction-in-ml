@@ -57,9 +57,49 @@ stages:
       size: 83285316
     - path: src/train.py
       hash: md5
-      md5: 2c8ea4772f69fbe57ed786a1242c354a
-      size: 1677
+      md5: 32c6558eae27129ae6f127fb72f08028
+      size: 1479
     outs:
+    - path: models/GradientBoosting.pkl
+      hash: md5
+      md5: 1b5dbec1571762ad808d9b3c78ca8c8f
+      size: 144168
+    - path: models/LogisticRegression.pkl
+      hash: md5
+      md5: a0fd32e723c3b3305dd23a4839b0518b
+      size: 2351
+    - path: models/RandomForest.pkl
+      hash: md5
+      md5: b6f8435ab969c486773a057e8260fc35
+      size: 398690265
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+    - path: data/processed/preprocessed_dataset.csv
+      hash: md5
+      md5: cbb7dba934f2343e892f0a9556ba0b38
+      size: 83285316
+    - path: models/GradientBoosting.pkl
+      hash: md5
+      md5: 1b5dbec1571762ad808d9b3c78ca8c8f
+      size: 144168
+    - path: models/LogisticRegression.pkl
+      hash: md5
+      md5: a0fd32e723c3b3305dd23a4839b0518b
+      size: 2351
+    - path: models/RandomForest.pkl
+      hash: md5
+      md5: b6f8435ab969c486773a057e8260fc35
+      size: 398690265
+    - path: src/evaluate.py
+      hash: md5
+      md5: 7725aedfd26df166e266ff1dbbd39008
+      size: 2503
+    outs:
+    - path: metrics.json
+      hash: md5
+      md5: fd44a0d8976f99478bf4e1806a6683b9
+      size: 777
     - path: models/best_model.pkl
       hash: md5
       md5: a0fd32e723c3b3305dd23a4839b0518b

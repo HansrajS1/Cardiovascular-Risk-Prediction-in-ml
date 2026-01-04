@@ -29,4 +29,19 @@ stages:
       - src/train.py
       - data/processed/preprocessed_dataset.csv
     outs:
+      - models/LogisticRegression.pkl
+      - models/RandomForest.pkl
+      - models/GradientBoosting.pkl
+
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+      - src/evaluate.py
+      - data/processed/preprocessed_dataset.csv
+      - models/LogisticRegression.pkl
+      - models/RandomForest.pkl
+      - models/GradientBoosting.pkl
+    outs:
       - models/best_model.pkl
+    metrics:
+      - metrics.json

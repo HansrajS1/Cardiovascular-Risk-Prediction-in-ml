@@ -1,13 +1,12 @@
 import pandas as pd
-import mlflow
-import mlflow.sklearn
 import joblib
 import dagshub
+import mlflow
+import mlflow.sklearn
 
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
-
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 
 dagshub.init(
     repo_owner="HansrajS1",
@@ -15,9 +14,8 @@ dagshub.init(
     mlflow=True
 )
 
-
 DATA_PATH = "data/processed/preprocessed_dataset.csv"
-MODEL_PATH = "models/best_model.pkl"
+MODEL_DIR = "models/"
 
 mlflow.set_experiment("CVD_Heart_Disease")
 
@@ -27,36 +25,24 @@ def train():
     X = df.drop(columns=["Heart_Disease"])
     y = df["Heart_Disease"]
 
-    X_train, X_test, y_train, y_test = train_test_split(
+    X_train, _, y_train, _ = train_test_split(
         X, y, test_size=0.3, random_state=42, stratify=y
     )
 
-    with mlflow.start_run():
-        model = LogisticRegression(
-            max_iter=10000,
-            class_weight="balanced"
-        )
+    models = {
+        "LogisticRegression": LogisticRegression(max_iter=10000, class_weight="balanced"),
+        "RandomForest": RandomForestClassifier(n_estimators=100, random_state=42, class_weight="balanced"),
+        "GradientBoosting": GradientBoostingClassifier(n_estimators=100, random_state=42)
+    }
 
-        model.fit(X_train, y_train)
-        y_pred = model.predict(X_test)
+    for name, model in models.items():
+        with mlflow.start_run(run_name=f"train_{name}"):
+            model.fit(X_train, y_train)
+            mlflow.log_param("model_type", name)
+            mlflow.sklearn.log_model(model, "model")
 
-        acc = accuracy_score(y_test, y_pred)
-        prec = precision_score(y_test, y_pred)
-        rec = recall_score(y_test, y_pred)
-        f1 = f1_score(y_test, y_pred)
-
-        mlflow.log_param("model", "LogisticRegression")
-        mlflow.log_metric("accuracy", acc)
-        mlflow.log_metric("precision", prec)
-        mlflow.log_metric("recall", rec)
-        mlflow.log_metric("f1_score", f1)
-
-        mlflow.sklearn.log_model(model, "model")
-
-        joblib.dump(model, MODEL_PATH)
-
-        print("Model training completed")
-        print(f"Accuracy: {acc:.4f}, Recall: {rec:.4f}")
+            joblib.dump(model, f"{MODEL_DIR}{name}.pkl")
+            print(f"{name} trained and saved")
 
 if __name__ == "__main__":
     train()

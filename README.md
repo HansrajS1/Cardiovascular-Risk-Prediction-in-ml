@@ -1,59 +1,111 @@
 # Cardiovascular Risk Prediction using Machine Learning
 
-This project predicts the **10-year risk of coronary heart disease (CHD)** using machine learning algorithms based on clinical and demographic data dataset. It aims to assist healthcare professionals in early risk assessment and preventive care decisions.
+This project predicts the **10-year risk of coronary heart disease (CHD)** using machine learning algorithms based on clinical and demographic data. It aims to assist healthcare professionals in early risk assessment and preventive care decisions.
+
+The project is now **fully MLOps-enabled** with **DVC pipelines** and **MLflow experiment tracking via DAGsHub**.
 
 ---
 
 ## Key Features
 
-- Preprocessing and handling of missing medical data
-- Exploratory Data Analysis (EDA) with visual insights
-- Feature selection based on correlation and domain knowledge
--  Model training using:
+- **Data ingestion & validation** using Python scripts  
+- **Preprocessing**: handling missing values, scaling, and encoding  
+- **Exploratory Data Analysis (EDA)** with visual insights  
+- **Feature selection** using correlation, ANOVA F-test, RFE, and Random Forest importance  
+- **Model training** with:
   - Logistic Regression
   - Random Forest
   - Gradient Boosting
-- Evaluation using Accuracy, ROC-AUC, Precision, Recall, and F1 Score
-- Risk probability prediction for individual cases
+- **Experiment tracking** with **MLflow** on **DAGsHub**  
+- **Evaluation metrics**: Accuracy, ROC-AUC, Precision, Recall, F1 Score  
+- **Risk probability prediction** for individual cases  
+- **DVC pipelines** for reproducible workflows  
 
 ---
 
 ## Dataset
 
-- **Source**: [Patient dataset ](CVD_cleaned.zip)
-- **Attributes**: Age, Sex, Blood Pressure, Cholesterol, Smoking, Diabetes, and more
-- **Size**: ~4,000 samples × 15 features
+- **Source**: [CVD_cleaned.zip] (include a link if possible)  
+- **Attributes**: Age, Sex, Blood Pressure, Cholesterol, Smoking, Diabetes, and more  
+- **Size**: ~308,854 samples × 19 features  
 
 ---
 
 ## Tech Stack
 
 | Category           | Tools / Libraries                 |
-|--------------------|-----------------------------------|
-| Language           | Python 3.10                       |
-| Data Handling      | Pandas, NumPy                     |
-| Visualization      | Matplotlib, Seaborn               |
-| ML Algorithms      | scikit-learn                      |
-| Evaluation Metrics | ROC-AUC, Confusion Matrix, F1     |
-| Environment        | Jupyter Notebook / VS Code        |
+|-------------------|----------------------------------|
+| Language           | Python 3.10                     |
+| Data Handling      | Pandas, NumPy                   |
+| Visualization      | Matplotlib, Seaborn             |
+| ML Algorithms      | scikit-learn                    |
+| Experiment Tracking| MLflow + DAGsHub                 |
+| Pipelines          | DVC                             |
+| Environment        | Jupyter Notebook / VS Code       |
 
 ---
 
 ## Results
 
-| Model               | Accuracy | Precision | F1 Score |
-|--------------------|----------|---------|----------|
-| Logistic Regression| 0.918797    | 0.516878    |  0.115240    |
-| Random Forest      | 0.917696    | 0.452830    | 0.080983     |
-| SVM                | 0.918657    | 0.512516    | 0.093566     |
+| Model               | Accuracy | Precision | Recall | F1 Score |
+|-------------------|---------|----------|--------|----------|
+| Logistic Regression| 0.9188  | 0.5169   | 0.0648 | 0.1152   |
+| Random Forest      | 0.9177  | 0.4528   | 0.0445 | 0.0810   |
+| Gradient Boosting  | 0.9187  | 0.5125   | 0.0515 | 0.0936   |
 
-> *Logistic Regression performed best in terms of balanced accuracy and AUC.*
+> *Logistic Regression performed best in terms of balanced accuracy and ROC-AUC.*
+
+---
+
+## DAGsHub Integration
+
+All experiments and metrics are tracked on **DAGsHub MLflow**:
+
+[https://dagshub.com/HansrajS1/Cardiovascular-Risk-Prediction-in-ml.mlflow](https://dagshub.com/HansrajS1/Cardiovascular-Risk-Prediction-in-ml.mlflow)
+
+- Logs hyperparameters, metrics, and models automatically  
+- Compare experiment runs visually  
+- Download trained models from the Artifacts tab  
 
 ---
 
 ## How to Run
 
+1. **Clone the repo**
+
 ```bash
 git clone https://github.com/HansrajS1/Cardiovascular-Risk-Prediction-in-ml.git
 cd Cardiovascular-Risk-Prediction-in-ml
+```
+
+2. Create a virtual environment
+
+```bash
+python -m venv venv
+# Windows
+venv\Scripts\activate
+# macOS/Linux
+source venv/bin/activate
+```
+
+3. Install dependencies
+
+```bash
 pip install -r requirements.txt
+```
+4. Setup DVC remote (optional)
+
+```bash
+dvc remote add -d storage <remote-url>
+dvc pull
+```
+5. Setup DVC remote (optional)
+
+```bash
+dvc repro
+```
+
+6. Check MLflow experiments on DAGsHub
+
+https://dagshub.com/HansrajS1/Cardiovascular-Risk-Prediction-in-ml.mlflow
+
