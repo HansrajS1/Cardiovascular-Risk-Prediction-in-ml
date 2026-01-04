@@ -2,10 +2,19 @@ import pandas as pd
 import mlflow
 import mlflow.sklearn
 import joblib
+import dagshub
 
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+
+
+dagshub.init(
+    repo_owner="HansrajS1",
+    repo_name="Cardiovascular-Risk-Prediction-in-ml",
+    mlflow=True
+)
+
 
 DATA_PATH = "data/processed/preprocessed_dataset.csv"
 MODEL_PATH = "models/best_model.pkl"
