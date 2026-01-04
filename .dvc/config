@@ -1,0 +1,4 @@
+[core]
+    remote = origin
+['remote "origin"']
+    url = https://dagshub.com/HansrajS1/Cardiovascular-Risk-Prediction-in-ml.dvc
