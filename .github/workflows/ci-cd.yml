@@ -2,11 +2,9 @@ name: ML Pipeline CI/CD
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   train-evaluate:
@@ -25,9 +23,9 @@ jobs:
       run: |
         pip install --upgrade pip
         pip install -r requirements.txt
-        pip install dvc[dags]
+        pip install dvc dagshub mlflow
 
-    - name: Configure DagsHub authentication
+    - name: Configure DVC + DAGsHub authentication
       run: |
         dvc remote modify origin --local auth basic
         dvc remote modify origin --local user ${{ secrets.DAGSHUB_USER }}
@@ -37,8 +35,6 @@ jobs:
       run: dvc pull
 
     - name: Run ML pipeline
-      env:
-        MLFLOW_TRACKING_URI: ${{ secrets.MLFLOW_TRACKING_URI }}
       run: dvc repro
 
     - name: Show metrics
