@@ -1,0 +1,76 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# =========================
+# Virtual Environments
+# =========================
+venv/
+.env/
+.envrc/
+
+# =========================
+# Jupyter
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# OS / Editor
+# =========================
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# =========================
+# Logs
+# =========================
+*.log
+
+# =========================
+# Data (Handled by DVC)
+# =========================
+data/raw/
+data/validated/
+data/processed/
+
+# =========================
+# Models & Artifacts
+# =========================
+models/
+artifacts/
+
+# =========================
+# MLflow
+# =========================
+mlruns/
+mlflow.db
+
+# =========================
+# DVC
+# =========================
+.dvc/cache/
+.dvc/tmp/
+
+# =========================
+# Reports / Outputs
+# =========================
+reports/
+outputs/
+
+# =========================
+# Secrets
+# =========================
+*.env
+secrets/
+/metrics.json
