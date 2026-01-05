@@ -8,12 +8,6 @@ import dagshub
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from sklearn.model_selection import train_test_split
 
-dagshub.init(
-    repo_owner="HansrajS1",
-    repo_name="Cardiovascular-Risk-Prediction-in-ml",
-    mlflow=True
-)
-
 mlflow.set_experiment("CVD_Heart_Disease_Evaluation")
 
 DATA_PATH = "data/processed/preprocessed_dataset.csv"

@@ -1,7 +1,5 @@
 pandas
-numpy
 scikit-learn
-matplotlib
-seaborn
-mlflow
-dvc
+fastapi
+uvicorn
+joblib

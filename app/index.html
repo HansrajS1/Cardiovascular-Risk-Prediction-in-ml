@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <title>Cardiovascular Risk Prediction</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root {
+      --bg: #f4f6f8;
+      --bg-elevated: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+      --border-subtle: #e5e7eb;
+      --accent: #2563eb;
+      --accent-soft: #dbeafe;
+      --accent-strong: #1d4ed8;
+      --danger: #b91c1c;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.10);
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --radius-pill: 999px;
+      --field-bg: #f9fafb;
+      --field-border: #e5e7eb;
+      --field-border-focus: #2563eb;
+      --chip-bg: #f3f4f6;
+      --chip-bg-active: #2563eb;
+      --chip-text: #374151;
+      --chip-text-active: #f9fafb;
+      --btn-text: #ffffff;
+      --btn-bg: #2563eb;
+      --btn-bg-hover: #1d4ed8;
+      --btn-shadow: 0 10px 30px rgba(37, 99, 235, 0.5);
+      --card-gap: 1.25rem;
+    }
+
+    [data-theme="dark"] {
+      --bg: #020617;
+      --bg-elevated: #020617;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border-subtle: #1f2937;
+      --accent: #60a5fa;
+      --accent-soft: rgba(37, 99, 235, 0.28);
+      --accent-strong: #3b82f6;
+      --danger: #f97373;
+      --shadow-soft: 0 22px 55px rgba(0, 0, 0, 0.65);
+      --field-bg: #020617;
+      --field-border: #1f2937;
+      --field-border-focus: #3b82f6;
+      --chip-bg: #020617;
+      --chip-bg-active: #1d4ed8;
+      --chip-text: #e5e7eb;
+      --chip-text-active: #f9fafb;
+      --btn-text: #0b1120;
+      --btn-bg: #facc15;
+      --btn-bg-hover: #eab308;
+      --btn-shadow: 0 18px 45px rgba(250, 204, 21, 0.55);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, rgba(37, 99, 235, 0.12), transparent 55%),
+                  radial-gradient(circle at top right, rgba(236, 72, 153, 0.16), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      padding: 24px 16px 32px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1120px;
+    }
+
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.6rem, 2.4vw, 2rem);
+      letter-spacing: -0.03em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .tag {
+      font-size: 0.70rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent-soft), transparent);
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tag-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.25);
+    }
+
+    .subtitle {
+      margin: 6px 0 0;
+      font-size: 0.88rem;
+      color: var(--muted);
+      max-width: 480px;
+    }
+
+    .theme-toggle {
+      display: inline-flex;
+      padding: 3px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.06);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      position: relative;
+    }
+
+    .theme-toggle button {
+      position: relative;
+      z-index: 1;
+      border-radius: 999px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.78rem;
+      padding: 6px 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.16s ease-out, transform 0.12s ease-out;
+      white-space: nowrap;
+    }
+
+    .theme-toggle button span.icon {
+      font-size: 0.9rem;
+    }
+
+    .theme-toggle button.active {
+      color: var(--text);
+      transform: translateY(-1px);
+    }
+
+    .theme-toggle-indicator {
+      position: absolute;
+      inset: 3px;
+      width: calc(50% - 3px);
+      border-radius: 999px;
+      background: var(--bg-elevated);
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.18);
+      transform: translateX(0);
+      transition: transform 0.18s ease-out;
+    }
+
+    [data-theme="dark"] .theme-toggle-indicator {
+      transform: translateX(100%);
+    }
+
+    form {
+      width: 100%;
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.22), transparent 58%),
+                  var(--bg-elevated);
+      padding: 22px 20px 22px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(15, 23, 42, 0.10);
+      backdrop-filter: blur(18px);
+    }
+
+    @media (min-width: 640px) {
+      form {
+        padding: 26px 24px 26px;
+      }
+    }
+
+    @media (min-width: 960px) {
+      form {
+        padding: 26px 28px 26px;
+      }
+    }
+
+    .form-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+      padding-bottom: 14px;
+    }
+
+    .form-title {
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pill-indicator {
+      font-size: 0.72rem;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(16, 185, 129, 0.12);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.45);
+    }
+
+    .form-caption {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      gap: var(--card-gap);
+    }
+
+    @media (min-width: 640px) {
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 900px) {
+      .grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    select,
+    input[type="number"] {
+      width: 100%;
+      padding: 8px 9px;
+      font-size: 0.86rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--field-border);
+      background-color: var(--field-bg);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s ease-out, box-shadow 0.15s ease-out,
+                  background-color 0.15s ease-out, transform 0.08s ease-out;
+      box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+    }
+
+    select:focus,
+    input[type="number"]:focus {
+      border-color: var(--field-border-focus);
+      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.22);
+      transform: translateY(-0.5px);
+    }
+
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      margin: 0;
+    }
+
+
+    h3 {
+      margin: 18px 0 8px;
+      font-size: 0.92rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h3::before {
+      content: "";
+      width: 22px;
+      height: 1.5px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+    }
+
+    .section-helper {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .checkbox-chip {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 11px;
+      border-radius: var(--radius-pill);
+      background: var(--chip-bg);
+      color: var(--chip-text);
+      font-size: 0.76rem;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      cursor: pointer;
+      transition: background-color 0.16s ease-out,
+                  color 0.16s ease-out,
+                  border-color 0.16s ease-out,
+                  box-shadow 0.16s ease-out,
+                  transform 0.08s ease-out;
+    }
+
+    .checkbox-chip input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .checkbox-chip .check {
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      border: 1.5px solid rgba(148, 163, 184, 0.9);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.6rem;
+      color: transparent;
+      background: transparent;
+      transition: all 0.18s ease-out;
+      flex-shrink: 0;
+    }
+
+    .checkbox-chip span.text {
+      white-space: nowrap;
+    }
+
+    .checkbox-chip input[type="checkbox"]:checked + .check {
+      background: #22c55e;
+      border-color: #16a34a;
+      color: #f9fafb;
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.32);
+    }
+
+    .checkbox-chip input[type="checkbox"]:checked ~ span.text {
+      font-weight: 500;
+    }
+
+    .checkbox-chip:has(input[type="checkbox"]:checked) {
+      background: var(--chip-bg-active);
+      color: var(--chip-text-active);
+      border-color: rgba(37, 99, 235, 0.75);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.25);
+      transform: translateY(-1px);
+    }
+
+    .form-footer {
+      margin-top: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    @media (min-width: 640px) {
+      .form-footer {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    button[type="submit"] {
+      margin-top: 0;
+      padding: 11px 18px;
+      min-height: 42px;
+      width: 100%;
+      max-width: 230px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      background: var(--btn-bg);
+      color: var(--btn-text);
+      border: none;
+      cursor: pointer;
+      border-radius: var(--radius-pill);
+      box-shadow: var(--btn-shadow);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 0.14s ease-out,
+                  box-shadow 0.16s ease-out,
+                  background-color 0.12s ease-out,
+                  filter 0.12s ease-out;
+    }
+
+    button[type="submit"]:hover {
+      background: var(--btn-bg-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 14px 35px rgba(15, 23, 42, 0.35);
+      filter: saturate(1.05);
+    }
+
+    button[type="submit"]:active {
+      transform: translateY(1px) scale(0.99);
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.4);
+    }
+
+    #result {
+      font-size: 0.95rem;
+      text-align: left;
+      font-weight: 500;
+      color: var(--accent-strong);
+      padding: 8px 10px;
+      border-radius: var(--radius-md);
+      background: rgba(37, 99, 235, 0.06);
+      border: 1px dashed rgba(37, 99, 235, 0.3);
+      min-height: 24px;
+    }
+
+    [data-theme="dark"] #result {
+      background: rgba(37, 99, 235, 0.2);
+      border-style: solid;
+    }
+
+    .result-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    @media (max-width: 480px) {
+      .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .subtitle {
+        max-width: none;
+      }
+
+      button[type="submit"] {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="page-header">
+      <div>
+        <div class="tag">
+          <span class="tag-dot"></span>
+          <span>Clinical prototype</span>
+        </div>
+        <h1>Cardiovascular Risk Prediction</h1>
+        <p class="subtitle">
+          Enter lifestyle and medical profile details to estimate your cardiovascular risk profile.
+        </p>
+      </div>
+
+      <div class="theme-toggle" aria-label="Toggle color mode">
+        <div class="theme-toggle-indicator"></div>
+        <button type="button" id="lightThemeBtn" >
+          <span class="icon">🌤️</span>
+          Light
+        </button>
+        <button type="button" id="darkThemeBtn" class="active">
+          <span class="icon">🌙</span>
+          Dark
+        </button>
+      </div>
+    </div>
+
+    <form id="cvdForm">
+      <div class="form-header">
+        <div>
+          <div class="form-title">
+            Input profile
+            <span class="pill-indicator">Real‑time prediction</span>
+          </div>
+          <div class="form-caption">Provide as much information as possible for a more stable estimate.</div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="field">
+          <label>Exercise</label>
+          <select id="Exercise"><option>No</option><option>Yes</option></select>
+        </div>
+        <div class="field">
+          <label>Heart Disease</label>
+          <select id="Heart_Disease"><option>No</option><option>Yes</option></select>
+        </div>
+        <div class="field">
+          <label>Skin Cancer</label>
+          <select id="Skin_Cancer"><option>No</option><option>Yes</option></select>
+        </div>
+
+        <div class="field">
+          <label>Other Cancer</label>
+          <select id="Other_Cancer"><option>No</option><option>Yes</option></select>
+        </div>
+        <div class="field">
+          <label>Depression</label>
+          <select id="Depression"><option>No</option><option>Yes</option></select>
+        </div>
+        <div class="field">
+          <label>Arthritis</label>
+          <select id="Arthritis"><option>No</option><option>Yes</option></select>
+        </div>
+
+        <div class="field">
+          <label>Sex</label>
+          <select id="Sex"><option>Male</option><option>Female</option></select>
+        </div>
+
+        <div class="field">
+          <label>Height (cm)</label>
+          <input type="number" id="Height_(cm)" value="175">
+        </div>
+        <div class="field">
+          <label>Weight (kg)</label>
+          <input type="number" id="Weight_(kg)" value="70">
+        </div>
+
+        <div class="field">
+          <label>BMI</label>
+          <input type="number" step="0.1" id="BMI" value="22.9">
+        </div>
+
+        <div class="field">
+          <label>Smoking History</label>
+          <select id="Smoking_History"><option>No</option><option>Yes</option></select>
+        </div>
+
+        <div class="field">
+          <label>Alcohol Consumption</label>
+          <input type="number" id="Alcohol_Consumption" value="2">
+        </div>
+
+        <div class="field">
+          <label>Fruit Consumption</label>
+          <input type="number" id="Fruit_Consumption" value="3">
+        </div>
+
+        <div class="field">
+          <label>Green Vegetables</label>
+          <input type="number" id="Green_Vegetables_Consumption" value="2">
+        </div>
+
+        <div class="field">
+          <label>Fried Potato</label>
+          <input type="number" id="FriedPotato_Consumption" value="1">
+        </div>
+      </div>
+
+      <h3>General Health</h3>
+      <p class="section-helper">Select the option that best describes your current overall health.</p>
+      <div class="checkbox-group">
+        <label class="checkbox-chip">
+          <input type="checkbox" id="General_Health_Excellent">
+          <span class="check">✓</span>
+          <span class="text">Excellent</span>
+        </label>
+        <label class="checkbox-chip">
+          <input type="checkbox" id="General_Health_Good" checked>
+          <span class="check">✓</span>
+          <span class="text">Good</span>
+        </label>
+        <label class="checkbox-chip">
+          <input type="checkbox" id="General_Health_Fair">
+          <span class="check">✓</span>
+          <span class="text">Fair</span>
+        </label>
+        <label class="checkbox-chip">
+          <input type="checkbox" id="General_Health_Poor">
+          <span class="check">✓</span>
+          <span class="text">Poor</span>
+        </label>
+        <label class="checkbox-chip">
+          <input type="checkbox" id="General_Health_Very Good">
+          <span class="check">✓</span>
+          <span class="text">Very good</span>
+        </label>
+      </div>
+
+      <h3>Checkup</h3>
+      <p class="section-helper">When was your most recent general health checkup?</p>
+      <div class="checkbox-group">
+        <label class="checkbox-chip">
+          <input type="checkbox" id="Checkup_Within the past 2 years" checked>
+          <span class="check">✓</span>
+          <span class="text">Within past 2 years</span>
+        </label>
+        <label class="checkbox-chip">
+          <input type="checkbox" id="Checkup_Within the past year">
+          <span class="check">✓</span>
+          <span class="text">Within past year</span>
+        </label>
+        <label class="checkbox-chip">
+          <input type="checkbox" id="Checkup_Within the past 5 years">
+          <span class="check">✓</span>
+          <span class="text">Within past 5 years</span>
+        </label>
+        <label class="checkbox-chip">
+          <input type="checkbox" id="Checkup_5 or more years ago">
+          <span class="check">✓</span>
+          <span class="text">5+ years ago</span>
+        </label>
+        <label class="checkbox-chip">
+          <input type="checkbox" id="Checkup_Never">
+          <span class="check">✓</span>
+          <span class="text">Never</span>
+        </label>
+      </div>
+
+      <h3>Diabetes</h3>
+      <p class="section-helper">Indicate any history or diagnosis of diabetes.</p>
+      <div class="checkbox-group">
+        <label class="checkbox-chip">
+          <input type="checkbox" id="Diabetes_No" checked>
+          <span class="check">✓</span>
+          <span class="text">No</span>
+        </label>
+        <label class="checkbox-chip">
+          <input type="checkbox" id="Diabetes_Yes">
+          <span class="check">✓</span>
+          <span class="text">Yes</span>
+        </label>
+        <label class="checkbox-chip">
+          <input type="checkbox" id="Diabetes_No, pre-diabetes or borderline diabetes">
+          <span class="check">✓</span>
+          <span class="text">Pre / borderline</span>
+        </label>
+        <label class="checkbox-chip">
+          <input type="checkbox" id="Diabetes_Yes, but female told only during pregnancy">
+          <span class="check">✓</span>
+          <span class="text">Pregnancy only</span>
+        </label>
+      </div>
+
+      <h3>Age category</h3>
+      <p class="section-helper">Select the range that includes your current age.</p>
+      <div class="checkbox-group">
+        <label class="checkbox-chip">
+          <input type="checkbox" id="Age_Category_40-44" checked>
+          <span class="check">✓</span>
+          <span class="text">40–44</span>
+        </label>
+        <label class="checkbox-chip">
+          <input type="checkbox" id="Age_Category_35-39">
+          <span class="check">✓</span>
+          <span class="text">35–39</span>
+        </label>
+        <label class="checkbox-chip">
+          <input type="checkbox" id="Age_Category_45-49">
+          <span class="check">✓</span>
+          <span class="text">45–49</span>
+        </label>
+        <label class="checkbox-chip">
+          <input type="checkbox" id="Age_Category_50-54">
+          <span class="check">✓</span>
+          <span class="text">50–54</span>
+        </label>
+        <label class="checkbox-chip">
+          <input type="checkbox" id="Age_Category_60-64">
+          <span class="check">✓</span>
+          <span class="text">60–64</span>
+        </label>
+        <label class="checkbox-chip">
+          <input type="checkbox" id="Age_Category_80+">
+          <span class="check">✓</span>
+          <span class="text">80+</span>
+        </label>
+      </div>
+
+      <div class="form-footer">
+        <button type="submit">
+          Predict risk
+        </button>
+
+        <div style="flex:1; min-width: 0;">
+          <div class="result-label">Prediction output</div>
+          <div id="result"></div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const root = document.documentElement;
+    const lightBtn = document.getElementById("lightThemeBtn");
+    const darkBtn = document.getElementById("darkThemeBtn");
+
+    function setTheme(theme) {
+      document.documentElement.setAttribute("data-theme", theme);
+      if (theme === "dark") {
+          lightBtn.classList.remove("active");
+          darkBtn.classList.add("active");
+      } else {
+        lightBtn.classList.add("active");
+        darkBtn.classList.remove("active");
+      }
+    }
+
+    lightBtn.addEventListener("click", () => setTheme("light"));
+    darkBtn.addEventListener("click", () => setTheme("dark"));
+
+    document.getElementById("cvdForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const ids = [...document.querySelectorAll("input, select")].map(el => el.id);
+      const payload = {};
+
+      ids.forEach(id => {
+        const el = document.getElementById(id);
+        payload[id] = el.type === "checkbox" ? el.checked : el.value;
+      });
+
+      const response = await fetch("https://cardiovascular-risk-perdiction.onrender.com/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+      document.getElementById("result").innerText =
+        `Result: ${data.result}`;
+    });
+  </script>
+</body>
+</html>
