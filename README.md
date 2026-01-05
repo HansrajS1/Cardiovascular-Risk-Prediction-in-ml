@@ -4,6 +4,7 @@ This project predicts the **10-year risk of coronary heart disease (CHD)** using
 
 The project is now **fully MLOps-enabled** with **DVC pipelines** and **MLflow experiment tracking via DAGsHub**.
 
+live link : https://cardiovascular-risk-prediction.hansrajvvs.me/
 ---
 
 ## Key Features
