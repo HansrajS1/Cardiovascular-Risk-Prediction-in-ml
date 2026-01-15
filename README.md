@@ -26,7 +26,7 @@ live link : https://cardiovascular-risk-prediction.hansrajvvs.me/
 
 ## Dataset
 
-- **Source**: [CVD_cleaned.zip] (include a link if possible)  
+- **Source**: [CVD_cleaned.zip](https://github.com/HansrajS1/Cardiovascular-Risk-Prediction-in-ml/blob/main/data/source/CVD_cleaned.csv)
 - **Attributes**: Age, Sex, Blood Pressure, Cholesterol, Smoking, Diabetes, and more  
 - **Size**: ~308,854 samples × 19 features  
 
@@ -34,15 +34,17 @@ live link : https://cardiovascular-risk-prediction.hansrajvvs.me/
 
 ## Tech Stack
 
-| Category           | Tools / Libraries                 |
-|-------------------|----------------------------------|
+| Category           | Tools / Libraries               |
+|--------------------|---------------------------------|
 | Language           | Python 3.10                     |
 | Data Handling      | Pandas, NumPy                   |
 | Visualization      | Matplotlib, Seaborn             |
 | ML Algorithms      | scikit-learn                    |
-| Experiment Tracking| MLflow + DAGsHub                 |
+| Experiment Tracking| MLflow + DAGsHub                |
 | Pipelines          | DVC                             |
-| Environment        | Jupyter Notebook / VS Code       |
+| Backend            | FastAPI                         |
+| Frontend           | HTML, CSS, JavaScript           |                  
+| Environment        | Jupyter Notebook |  VS Code     |
 
 ---
 
@@ -107,6 +109,11 @@ dvc repro
 ```
 
 6. Check MLflow experiments on DAGsHub
-
+   
 https://dagshub.com/HansrajS1/Cardiovascular-Risk-Prediction-in-ml.mlflow
+
+7. Backend run command
+```bash
+   uvicorn app.main:app --reload
+```
 
