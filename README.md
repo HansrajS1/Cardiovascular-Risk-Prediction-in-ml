@@ -54,7 +54,7 @@ live link : https://cardiovascular-risk-prediction.hansrajvvs.me/
 | Random Forest      | 0.9177  | 0.4528   | 0.0445 | 0.0810   |
 | Gradient Boosting  | 0.9187  | 0.5125   | 0.0515 | 0.0936   |
 
-> *Logistic Regression performed best in terms of balanced accuracy and ROC-AUC.*
+> *Random Forest performed best in terms of balanced accuracy and ROC-AUC.*
 
 ---
 
