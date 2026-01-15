@@ -2,7 +2,7 @@
 
 This project predicts the **10-year risk of coronary heart disease (CHD)** using machine learning algorithms based on clinical and demographic data. It aims to assist healthcare professionals in early risk assessment and preventive care decisions.
 
-The project is now **fully MLOps-enabled** with **DVC pipelines** and **MLflow experiment tracking via DAGsHub**.
+The project is **fully MLOps-enabled** with **DVC pipelines** and **MLflow experiment tracking via DAGsHub**.
 
 live link : https://cardiovascular-risk-prediction.hansrajvvs.me/
 ---
