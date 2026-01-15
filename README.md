@@ -83,9 +83,9 @@ cd Cardiovascular-Risk-Prediction-in-ml
 
 ```bash
 python -m venv venv
-# Windows
+
 venv\Scripts\activate
-# macOS/Linux
+
 source venv/bin/activate
 ```
 
