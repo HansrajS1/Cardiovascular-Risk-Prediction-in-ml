@@ -2,8 +2,9 @@
 
 This project predicts the **10-year risk of coronary heart disease (CHD)** using machine learning algorithms based on clinical and demographic data. It aims to assist healthcare professionals in early risk assessment and preventive care decisions.
 
-The project is now **fully MLOps-enabled** with **DVC pipelines** and **MLflow experiment tracking via DAGsHub**.
+The project is **fully MLOps-enabled** with **DVC pipelines** and **MLflow experiment tracking via DAGsHub**.
 
+live link : https://cardiovascular-risk-prediction.hansrajvvs.me/
 ---
 
 ## Key Features
@@ -25,7 +26,7 @@ The project is now **fully MLOps-enabled** with **DVC pipelines** and **MLflow e
 
 ## Dataset
 
-- **Source**: [CVD_cleaned.zip] (include a link if possible)  
+- **Source**: [CVD_cleaned.zip](https://github.com/HansrajS1/Cardiovascular-Risk-Prediction-in-ml/blob/main/data/source/CVD_cleaned.csv)
 - **Attributes**: Age, Sex, Blood Pressure, Cholesterol, Smoking, Diabetes, and more  
 - **Size**: ~308,854 samples × 19 features  
 
@@ -33,15 +34,17 @@ The project is now **fully MLOps-enabled** with **DVC pipelines** and **MLflow e
 
 ## Tech Stack
 
-| Category           | Tools / Libraries                 |
-|-------------------|----------------------------------|
+| Category           | Tools / Libraries               |
+|--------------------|---------------------------------|
 | Language           | Python 3.10                     |
 | Data Handling      | Pandas, NumPy                   |
 | Visualization      | Matplotlib, Seaborn             |
 | ML Algorithms      | scikit-learn                    |
-| Experiment Tracking| MLflow + DAGsHub                 |
+| Experiment Tracking| MLflow + DAGsHub                |
 | Pipelines          | DVC                             |
-| Environment        | Jupyter Notebook / VS Code       |
+| Backend            | FastAPI                         |
+| Frontend           | HTML, CSS, JavaScript           |                  
+| Environment        | Jupyter Notebook |  VS Code     |
 
 ---
 
@@ -53,7 +56,7 @@ The project is now **fully MLOps-enabled** with **DVC pipelines** and **MLflow e
 | Random Forest      | 0.9177  | 0.4528   | 0.0445 | 0.0810   |
 | Gradient Boosting  | 0.9187  | 0.5125   | 0.0515 | 0.0936   |
 
-> *Logistic Regression performed best in terms of balanced accuracy and ROC-AUC.*
+> *Random Forest performed best in terms of balanced accuracy and ROC-AUC.*
 
 ---
 
@@ -82,9 +85,9 @@ cd Cardiovascular-Risk-Prediction-in-ml
 
 ```bash
 python -m venv venv
-# Windows
+
 venv\Scripts\activate
-# macOS/Linux
+
 source venv/bin/activate
 ```
 
@@ -106,6 +109,11 @@ dvc repro
 ```
 
 6. Check MLflow experiments on DAGsHub
-
+   
 https://dagshub.com/HansrajS1/Cardiovascular-Risk-Prediction-in-ml.mlflow
+
+7. Backend run command
+```bash
+   uvicorn app.main:app --reload
+```
 
