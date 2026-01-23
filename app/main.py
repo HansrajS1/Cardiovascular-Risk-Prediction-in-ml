@@ -25,10 +25,7 @@ app = FastAPI(title="Cardiovascular Risk Prediction API")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://cardiovascular-risk-prediction.hansrajvvs.me",
-        "http://localhost",
-        "http://localhost:5500",
-        "http://127.0.0.1:5500"
+        "https://cardiovascular-risk-prediction.hansrajvvs.me"
     ],
     allow_credentials=True,
     allow_methods=["*"],
