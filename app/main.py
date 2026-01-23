@@ -7,6 +7,7 @@ import gc
 
 MODEL_PATH = "models/RandomForest.pkl"
 PREPROCESSOR_PATH = "models/preprocessor.pkl"
+
 model = None
 preprocessor = None
 
@@ -23,7 +24,12 @@ app = FastAPI(title="Cardiovascular Risk Prediction API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "https://cardiovascular-risk-prediction.hansrajvvs.me",
+        "http://localhost",
+        "http://localhost:5500",
+        "http://127.0.0.1:5500"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -78,6 +84,7 @@ class PatientInput(BaseModel):
     Age_Category_70_74: bool = Field(False, alias="Age_Category_70-74")
     Age_Category_75_79: bool = Field(False, alias="Age_Category_75-79")
     Age_Category_80_plus: bool = Field(False, alias="Age_Category_80+")
+
 
 @app.get("/")
 def home():
