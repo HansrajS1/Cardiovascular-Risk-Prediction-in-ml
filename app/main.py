@@ -82,9 +82,8 @@ class PatientInput(BaseModel):
     Age_Category_75_79: bool = Field(False, alias="Age_Category_75-79")
     Age_Category_80_plus: bool = Field(False, alias="Age_Category_80+")
 
-
-@app.get("/")
-def home():
+@app.api_route("/", methods=["GET", "HEAD"]) 
+def home(): 
     return {"message": "CVD Risk Prediction API is running"}
 
 
